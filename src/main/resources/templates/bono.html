@@ -9,23 +9,15 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-
-
-
-	<div>
-
-		<div class="container">
-
-			<div class="d-flex">
-				<h3 class="title-content">Calculo de bono</h3>
-				<a th:href="@{/bono/}" class=" btn btn-primary">Nuevo</a>
-			</div>
-
-
-			<div class="col-6 frm-registro">
+	<div style="margin-top: 30px;" class="container">
+		<h3 class="title-content">Calculo de bono</h3>
+		
+		<div class="row">
+			<div class=" bloque col-lg-5 col-md-12 col-sm-12 col-xs-12 frm-registro">
 				<form th:action="@{/bono/save}" method="post" th:object="${bono}">
 					<div class="form-group">
 
@@ -44,39 +36,59 @@
 
 					</div>
 					<button type="submit" class="btnadd btn btn-primary">Calcular</button>
+					<a style="margin-left: 10px;" th:href="@{/bono/}"
+						class=" btn btn-warning">Nuevo</a>
 				</form>
 			</div>
-
-			<table class="table">
-				<thead class="thead-light">
-					<tr>
-						<th scope="col" class="text-center">Periodo</th>
-						<th scope="col" class="text-center">Saldo inicial</th>
-						<th scope="col" class="text-center">Capital Amortizado</th>
-						<th scope="col" class="text-center">Interes</th>
-						<th scope="col" class="text-center">Cuota</th>
-						<th scope="col" class="text-center">Capital pendiente</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="per : ${lista}">
-						<td class="text-center" th:text="${per.periodo}"></td>
-						<td class="text-center" th:text="${per.S}"></td>
-						<td class="text-center" th:text="${per.CA}"></td>
-						<td class="text-center" th:text="${per.I}"></td>
-						<td class="text-center" th:text="${per.CU}"></td>
-						<td class="text-center" th:text="${per.CP}"></td>
-					</tr>
-				</tbody>
-
-			</table>
-			<div th:if="${mensaje}" class="alert alert-danger">
-				<p th:text="${mensaje}"></p>
+			
+			<div th:if="${bono.n != 0}" class=" bloque row col-lg-6 col-md-12 col-sm-12 col-xs-12">
+				<div class="col-12">
+					<h2>Resultados:</h2>
+				</div>
+				<div class="col-5">
+					<h5>Capital:</h5>
+					<p th:text="${bono.capital}"></p>
+					<h5>TEP:</h5>
+					<p th:text="${bono.tep}"></p>
+					<h5>N:</h5>
+					<p th:text="${bono.n}"></p>
+				</div>
+				<div class="col-6" style="margin-left:20px;">
+					<h5>Total a pagar:</h5>
+					<p th:text="${pago}"></p>
+					<h5>Interes total generado:</h5>
+					<p th:text="${interes}"></p>
+				</div>
 			</div>
+			
 		</div>
-
-
+		<table th:if="${bono.n != 0}" style="margin-top: 20px;" class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col" class="text-center">Periodo</th>
+					<th scope="col" class="text-center">Saldo inicial</th>
+					<th scope="col" class="text-center">Capital Amortizado</th>
+					<th scope="col" class="text-center">Interes</th>
+					<th scope="col" class="text-center">Cuota</th>
+					<th scope="col" class="text-center">Capital pendiente</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="per : ${lista}">
+					<td class="text-center" th:text="${per.periodo}"></td>
+					<td class="text-center" th:text="${per.S}"></td>
+					<td class="text-center" th:text="${per.CA}"></td>
+					<td class="text-center" th:text="${per.I}"></td>
+					<td class="text-center" th:text="${per.CU}"></td>
+					<td class="text-center" th:text="${per.CP}"></td>
+				</tr>
+			</tbody>
+		</table>
+	
 	</div>
+
+
+
 
 
 

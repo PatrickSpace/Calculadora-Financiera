@@ -23,12 +23,23 @@ public class bonoController {
 		model.addAttribute("mensaje", "Aun no se ha calculado nada");
 		return "/bono";
 	}
-	
+
 	@PostMapping("/save")
-	public String guardar(bono bono,Model model) {
+	public String guardar(bono bono, Model model) {
+		float interestotal = 0;
+		float pagottotal = 0;
 		List<periodo> flujo = bono.flujodecaja();
-		model.addAttribute("bono", bono);
+		interestotal = bono.getInterestotal();
+		pagottotal= bono.getPagototal();
+		bono bono1 = new bono();
+		bono1 = bono;
+		model.addAttribute("bono", bono1);
 		model.addAttribute("lista", flujo);
+		model.addAttribute("interes", interestotal);
+		model.addAttribute("pago", pagottotal);
+		if (flujo.isEmpty()) {
+			model.addAttribute("mensaje", "La lista está vacia");
+		}
 		return "/bono";
 	}
 }

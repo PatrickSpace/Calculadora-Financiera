@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Finanche</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+
+<body>
+
+
+
+	<div>
+
+		<div class="container">
+
+			<div class="d-flex">
+				<h3 class="title-content">Calculo de bono</h3>
+				<a th:href="@{/bono/}" class=" btn btn-primary">Nuevo</a>
+			</div>
+
+
+			<div class="col-6 frm-registro">
+				<form th:action="@{/bono/save}" method="post" th:object="${bono}">
+					<div class="form-group">
+
+						<div class="form-group">
+							<label>Capital:</label> <input type="number" required
+								th:field="*{capital}" class="form-control"></input>
+						</div>
+						<div class="form-group">
+							<label>TEP:</label> <input type="text" required th:field="*{tep}"
+								class="form-control"></input>
+						</div>
+						<div class="form-group">
+							<label>Numero de periodos (n):</label> <input type="number"
+								required th:field="*{n}" class="form-control"></input>
+						</div>
+
+					</div>
+					<button type="submit" class="btnadd btn btn-primary">Calcular</button>
+				</form>
+			</div>
+
+			<table class="table">
+				<thead class="thead-light">
+					<tr>
+						<th scope="col" class="text-center">Periodo</th>
+						<th scope="col" class="text-center">Saldo inicial</th>
+						<th scope="col" class="text-center">Capital Amortizado</th>
+						<th scope="col" class="text-center">Interes</th>
+						<th scope="col" class="text-center">Cuota</th>
+						<th scope="col" class="text-center">Capital pendiente</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="per : ${lista}">
+						<td class="text-center" th:text="${per.periodo}"></td>
+						<td class="text-center" th:text="${per.S}"></td>
+						<td class="text-center" th:text="${per.CA}"></td>
+						<td class="text-center" th:text="${per.I}"></td>
+						<td class="text-center" th:text="${per.CU}"></td>
+						<td class="text-center" th:text="${per.CP}"></td>
+					</tr>
+				</tbody>
+
+			</table>
+			<div th:if="${mensaje}" class="alert alert-danger">
+				<p th:text="${mensaje}"></p>
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/jquery-3.3.1.slim.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

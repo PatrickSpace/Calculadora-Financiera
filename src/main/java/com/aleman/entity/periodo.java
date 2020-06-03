@@ -3,62 +3,62 @@ package com.aleman.entity;
 public class periodo {
 
 	private int periodo; 
-	private float S; //saldo
-	private float CU; //cuota
-	private float I; // interes
-	private float CA; //capital amortizado
-	private float CP;// capital pendiente
-	
-	public periodo(int periodo, float s, float cU, float i, float cA, float cP) {
-		super();
-		this.periodo = periodo;
-		S = s;
-		CU = cU;
-		I = i;
-		CA = cA;
-		CP = cP;
-	}
-	public periodo() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	private double S; //saldo
+	private double CU; //cuota
+	private double I; // interes
+	private double CA; //capital amortizado
+	private double CP;// capital pendiente
 	public int getPeriodo() {
 		return periodo;
 	}
 	public void setPeriodo(int periodo) {
 		this.periodo = periodo;
 	}
-	public float getS() {
+	public double getS() {
 		return S;
 	}
-	public void setS(float s) {
+	public void setS(double s) {
 		S = s;
 	}
-	public float getCU() {
+	public double getCU() {
 		return CU;
 	}
-	public void setCU(float cU) {
+	public void setCU(double cU) {
 		CU = cU;
 	}
-	public float getI() {
+	public double getI() {
 		return I;
 	}
-	public void setI(float i) {
+	public void setI(double i) {
 		I = i;
 	}
-	public float getCA() {
+	public double getCA() {
 		return CA;
 	}
-	public void setCA(float cA) {
+	public void setCA(double cA) {
 		CA = cA;
 	}
-	public float getCP() {
+	public double getCP() {
 		return CP;
 	}
-	public void setCP(float cP) {
+	public void setCP(double cP) {
+		CP = cP;
+	}
+	public periodo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public periodo(int periodo, double s, double cU, double i, double cA, double cP) {
+		super();
+		this.periodo = periodo;
+		S = s;
+		CU = cU;
+		I = i;
+		CA = cA;
 		CP = cP;
 	}
 	
+
 	
 	
 	

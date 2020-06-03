@@ -13,21 +13,68 @@
 </head>
 
 <body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<h4 class="navbar-brand">Calculo de bonos corporativos</h4>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarText" aria-controls="navbarText"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarText">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{'/bono/'+${tm}+'/1/new'}">Americano</a></li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{'/bono/'+${tm}+'/2/new'}">Aleman</a></li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{'/bono/'+${tm}+'/3/new'}">Frances</a></li>
+			</ul>
+			<div class="form-inline my-2 ">
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button"
+						id="dropdownMenuButton" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false" th:text="${moneda}"></button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<a class="dropdown-item" th:href="@{'/bono/0/'+${tt}+'/new'}">S/.</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" th:href="@{'/bono/1/'+${tt}+'/new'}">US$</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</nav>
+
 	<div style="margin-top: 30px;" class="container">
-		<h3 class="title-content">Calculo de bono</h3>
-		
+		<h3 class="title-content" th:text="'Metodo '+ ${tipo}"></h3>
 		<div class="row">
-			<div class=" bloque col-lg-5 col-md-12 col-sm-12 col-xs-12 frm-registro">
-				<form th:action="@{/bono/save}" method="post" th:object="${bono}">
+			<div
+				class=" bloque col-lg-5 col-md-12 col-sm-12 col-xs-12 frm-registro">
+				<form th:action="@{'/bono/'+${tm} + '/'+ ${tt} + '/save'}"
+					method="post" th:object="${bono}">
 					<div class="form-group">
 
 						<div class="form-group">
-							<label>Capital:</label> <input type="number" required
-								th:field="*{capital}" class="form-control"></input>
+							<label>Capital:</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" th:text="${moneda}"></span>
+								</div>
+								<input type="number" required th:field="*{capital}" step="any"
+									class="form-control"></input>
+							</div>
 						</div>
+
 						<div class="form-group">
-							<label>TEP:</label> <input type="text" required th:field="*{tep}"
-								class="form-control"></input>
+							<label>TEP:</label>
+							<div class="input-group mb-3">
+								<input type="text" required th:field="*{tep}" step="any"
+									class="form-control"></input>
+								<div class="input-group-prepend">
+									<span class="input-group-text">%</span>
+								</div>
+							</div>
 						</div>
 						<div class="form-group">
 							<label>Numero de periodos (n):</label> <input type="number"
@@ -36,12 +83,11 @@
 
 					</div>
 					<button type="submit" class="btnadd btn btn-primary">Calcular</button>
-					<a style="margin-left: 10px;" th:href="@{/bono/}"
-						class=" btn btn-warning">Nuevo</a>
 				</form>
 			</div>
-			
-			<div th:if="${bono.n != 0}" class=" bloque row col-lg-6 col-md-12 col-sm-12 col-xs-12">
+
+			<div th:if="${bono.n != 0}"
+				class=" bloque row col-lg-6 col-md-12 col-sm-12 col-xs-12">
 				<div class="col-12">
 					<h2>Resultados:</h2>
 				</div>
@@ -53,14 +99,14 @@
 					<h5>N:</h5>
 					<p th:text="${bono.n}"></p>
 				</div>
-				<div class="col-6" style="margin-left:20px;">
+				<div class="col-6" style="margin-left: 20px;">
 					<h5>Total a pagar:</h5>
-					<p th:text="${pago}"></p>
+					<p th:text="${moneda} + ${pago}"></p>
 					<h5>Interes total generado:</h5>
-					<p th:text="${interes}"></p>
+					<p th:text="${moneda} + ${interes}"></p>
 				</div>
 			</div>
-			
+
 		</div>
 		<table th:if="${bono.n != 0}" style="margin-top: 20px;" class="table">
 			<thead class="thead-dark">
@@ -82,9 +128,10 @@
 					<td class="text-center" th:text="${per.CU}"></td>
 					<td class="text-center" th:text="${per.CP}"></td>
 				</tr>
+
 			</tbody>
 		</table>
-	
+		<div class="alert alert-danger" role="alert" th:text="${mensaje}" th:if="${mensaje}"></div>
 	</div>
 
 

@@ -79,8 +79,8 @@ public class bonoController {
 			flujo = bono.flujodecajaFrances();
 		}
 		
-		interestotal = bono.getInterestotal();
-		pagottotal = bono.getPagototal();
+		interestotal = bono.getInterestotal(flujo);
+		pagottotal = bono.getPagototal(flujo);
 		List<periodo> flujochico = new ArrayList<periodo>();
 		flujochico = bono.flujoacortado(flujo);
 		model.addAttribute("lista", flujochico);

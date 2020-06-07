@@ -10,7 +10,7 @@ public class mainController {
 	@RequestMapping("/")
 	public String returnbono() {
 		String red = "";
-		red = "redirect:/bono/s/aleman/new";
+		red = "redirect:/bono/0/1/new";
 		return red;
 	}
 

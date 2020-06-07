@@ -68,8 +68,30 @@ public class bono {
 	// AMERICANO
 	public List<periodo> flujodecajaAmericano() {
 		List<periodo> flujoamer = new ArrayList<periodo>();
+	       
+		double i1 = this.capital / (this.tep/ 100);
+		double cu1 = i1;
+		double cpaux = 0;
+		for (int i = 1; i < n + 1; i++) {
+			periodo p = new periodo();
+			p.setI(i1);
+			p.setS(cpaux);
+			if (i == 1) {
+				p.setS(this.capital);
+			}
 
-		/// COLOQUEN AQUI EL CODIGO
+			if (i == n) {
+				p.setCU(this.capital+i1);
+			}
+			p.setPeriodo(i);
+			p.setCA(p.getCU() - p.getI());
+			p.setCP(p.getS() - p.getCA());
+			if (p.getCP() < 0) {
+				p.setCP(0);
+			}
+			cpaux = p.getCP();
+			flujoamer.add(p);
+		}
 
 		return flujoamer;
 	}
@@ -84,10 +106,10 @@ public class bono {
 		return flujofranc;
 	}
 
-	public String getInterestotal() {
+	public String getInterestotal(List<periodo> flujo1) {
 		double interes = 0;
 		String inter = "";
-		List<periodo> flujo = this.flujodecajaAleman();
+		List<periodo> flujo = flujo1;
 		for (periodo p : flujo) {
 			interes = interes + p.getI();
 		}
@@ -97,10 +119,10 @@ public class bono {
 		return inter;
 	}
 
-	public String getPagototal() {
+	public String getPagototal(List<periodo> flujo1) {
 		double pago = 0;
 		String pago1 ="";
-		List<periodo> flujo = this.flujodecajaAleman();
+		List<periodo> flujo = flujo1;
 		for (periodo p : flujo) {
 			pago = pago + p.getCU();
 		}

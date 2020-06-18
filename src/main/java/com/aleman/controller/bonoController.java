@@ -27,20 +27,21 @@ public class bonoController {
 		if (moneda == 1) {
 			model.addAttribute("moneda", "US$ ");
 			model.addAttribute("tm", "1");
-		} 
-		
-		if (tipo == 1) {  //americano = 1
+		}
+
+		if (tipo == 1) { // americano = 1
 			model.addAttribute("tipo", "Americano");
 			model.addAttribute("tt", 1);
 		}
-		if (tipo == 2) { //aleman = 2
+		if (tipo == 2) { // aleman = 2
 			model.addAttribute("tipo", "Aleman");
 			model.addAttribute("tt", 2);
 		}
-		if (tipo == 3) { //frances = 3
+		if (tipo == 3) { // frances = 3
 			model.addAttribute("tipo", "Frances");
 			model.addAttribute("tt", 3);
 		}
+
 		model.addAttribute("bono", new bono());
 		model.addAttribute("lista", new ArrayList<periodo>());
 		return "/bono";
@@ -51,6 +52,7 @@ public class bonoController {
 			@PathVariable(name = "tipo") int tipo) {
 		String interestotal = "";
 		String pagottotal = "";
+		
 		if (moneda == 0) {
 			model.addAttribute("moneda", "S/. ");
 			model.addAttribute("tm", "0");
@@ -58,27 +60,28 @@ public class bonoController {
 		if (moneda == 1) {
 			model.addAttribute("moneda", "US$ ");
 			model.addAttribute("tm", "1");
-		} 
-		
-		
+		}
+
+	
+
 		List<periodo> flujo = new ArrayList<periodo>();
-		
-		if (tipo == 1) {  //americano = 1
+
+		if (tipo == 1) { // americano = 1
 			model.addAttribute("tipo", "Americano");
 			model.addAttribute("tt", 1);
 			flujo = bono.flujodecajaAmericano();
 		}
-		if (tipo == 2) { //aleman = 2
+		if (tipo == 2) { // aleman = 2
 			model.addAttribute("tipo", "Aleman");
 			model.addAttribute("tt", 2);
 			flujo = bono.flujodecajaAleman();
 		}
-		if (tipo == 3) { //frances = 3
+		if (tipo == 3) { // frances = 3
 			model.addAttribute("tipo", "Frances");
 			model.addAttribute("tt", 3);
 			flujo = bono.flujodecajaFrances();
 		}
-		
+
 		interestotal = bono.getInterestotal(flujo);
 		pagottotal = bono.getPagototal(flujo);
 		List<periodo> flujochico = new ArrayList<periodo>();
@@ -94,7 +97,5 @@ public class bonoController {
 		}
 		return "/bono";
 	}
-	
-	
-	
+
 }

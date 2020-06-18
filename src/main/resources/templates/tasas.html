@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Herramientas</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<h4 class="navbar-brand">Calculo de bonos corporativos</h4>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarText" aria-controls="navbarText"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarText">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/bono/0/1/new}">Americano</a></li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/bono/0/2/new}">Aleman</a></li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/bono/0/3/new}">Frances</a></li>
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+					role="button" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false"> Herramientas </a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" th:href="@{/herramientas/tnpatep}">De
+							TNP a TEP</a>
+					</div></li>
+			</ul>
+	
+		</div>
+	</nav>
+
+	<div style="margin-top: 30px;" class="container">
+		<h3 class="title-content">Calculo de Tasa Efectiva</h3>
+		<div class="row">
+			<div
+				class=" bloque col-lg-5 col-md-12 col-sm-12 col-xs-12 frm-registro">
+				<form th:action="@{/herramientas/calcular}" method="post"
+					th:object="${tasa}">
+					<div class="form-group">
+
+						<div class="form-group">
+							<label>Tipo de tasa nominal (N° de dias):</label> <input
+								type="text" required th:field="*{p}" class="form-control"></input>
+						</div>
+
+						<div class="form-group">
+							<label>Tasa Nominal:</label>
+							<div class="input-group mb-3">
+								<input type="text" required th:field="*{tasa}" step="any"
+									class="form-control"></input>
+								<div class="input-group-prepend">
+									<span class="input-group-text">%</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label>Periodo de Capitalizacion (en dias):</label> <input
+								type="text" required th:field="*{pc}" class="form-control"></input>
+						</div>
+
+						<div class="form-group">
+							<label>Tipo de tasa efectiva requerida (en dias):</label> <input
+								type="text" required th:field="*{te}" class="form-control"></input>
+						</div>
+
+					</div>
+					<button type="submit" class="btnadd btn btn-primary">Calcular</button>
+				</form>
+			</div>
+
+			<div th:if="${tep != 0}"
+				class=" bloque row col-lg-6 col-md-12 col-sm-12 col-xs-12">
+				<div class="col-12">
+					<h2>Resultados:</h2>
+				</div>
+				<div class="col-5">
+					<h5>M:</h5>
+					<p th:text="${m}"></p>
+					<h5>N:</h5>
+					<p th:text="${n}"></p>
+					<h5>TEP:</h5>
+					<p th:text="${tep}"></p>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/jquery-3.3.1.slim.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+
+</body>
+</html>

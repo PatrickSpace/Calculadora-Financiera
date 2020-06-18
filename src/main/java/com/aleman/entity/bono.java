@@ -81,11 +81,11 @@ public class bono {
 				p.setI(aux);
 				p.setCA(aux);
 			}
+			p.setCU(i1);
 			if (i == n) {
 				p.setCU(this.capital + i1);
 			}
 			p.setI(i1);
-			p.setCU(i1);
 			p.setCA(p.getCU() - p.getI());
 			p.setS(this.capital - p.getCA());
 			p.setPeriodo(i);

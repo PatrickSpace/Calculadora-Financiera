@@ -57,6 +57,9 @@
 	<div style="margin-top: 30px;" class="container">
 		<h3 class="title-content" th:text="'Metodo '+ ${tipo}"></h3>
 		<div class="row">
+
+
+
 			<div
 				class=" bloque col-lg-5 col-md-12 col-sm-12 col-xs-12 frm-registro">
 				<form th:action="@{'/bono/'+${tm} + '/'+ ${tt} + '/save'}"
@@ -113,30 +116,35 @@
 				</form>
 			</div>
 
-			<div th:if="${bono.n != 0}"
+			<div th:if="${bono.tiempo_anios!= 0}"
 				class=" bloque row col-lg-6 col-md-12 col-sm-12 col-xs-12">
 				<div class="col-12">
 					<h2>Resultados:</h2>
 				</div>
+				<!-- 
 				<div class="col-5">
 					<h5>Capital:</h5>
 					<p th:text="${bono.capital}"></p>
 					<h5>TEP:</h5>
-					<p th:text="${bono.getTEPacortado()}"></p>
+					<p th:text="${bono.tep}"></p>
 					<h5>N:</h5>
 					<p th:text="${bono.n}"></p>
 				</div>
-
+				 -->
 				<div class="col-6" style="margin-left: 20px;">
 					<h5>Total a pagar:</h5>
 					<p th:text="${moneda} + ${pago}"></p>
 					<h5>Interes total generado:</h5>
 					<p th:text="${moneda} + ${interes}"></p>
 				</div>
+
 			</div>
 
 		</div>
-		<table th:if="${bono.n != 0}" style="margin-top: 20px;" class="table">
+
+
+		<table th:if="${bono.tiempo_anios!= 0}" style="margin-top: 20px;"
+			class="table">
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col" class="text-center">Periodo</th>
@@ -145,24 +153,27 @@
 					<th scope="col" class="text-center">Interes</th>
 					<th scope="col" class="text-center">Cuota</th>
 					<th scope="col" class="text-center">Capital pendiente</th>
-					<th scope="col" class="text-center">Flujo emisor</th>
-					<th scope="col" class="text-center">Flujo bonista</th>
+
+					<th scope="col" class="text-center">Flujo Emisor</th>
+					<th scope="col" class="text-center">Flujo Bonista</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="per : ${lista}">
 					<td class="text-center" th:text="${per.periodo}"></td>
-					<td class="text-center" th:text="${per.S}"></td>
-					<td class="text-center" th:text="${per.CA}"></td>
+					<td class="text-center" th:text="${per.valorn}"></td>
+					<td class="text-center" th:text="${per.amortizacion}"></td>
 					<td class="text-center" th:text="${per.I}"></td>
-					<td class="text-center" th:text="${per.CU}"></td>
-					<td class="text-center" th:text="${per.CP}"></td>
-					<td class="text-center" th:text="${per.FE}"></td>
-					<td class="text-center" th:text="${per.FB}"></td>
+					<td class="text-center" th:text="${per.cuota_R()}"></td>
+					<td class="text-center" th:text="${per.flujoemisor}"></td>
+					<td class="text-center" th:text="${per.cuota_R()}"></td>
+					<td class="text-center" th:text="${per.flujobonista}"></td>
 				</tr>
 
 			</tbody>
 		</table>
+
+
 		<div class="alert alert-danger" role="alert" th:text="${mensaje}"
 			th:if="${mensaje}"></div>
 

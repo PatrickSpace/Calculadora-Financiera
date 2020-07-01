@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.aleman</groupId>
-	<artifactId>Aleman</artifactId>
+	<artifactId>Finanzas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Aleman</name>
+	<name>Finanzas</name>
 	<description>Programa para Finanzas</description>
 
 	<properties>

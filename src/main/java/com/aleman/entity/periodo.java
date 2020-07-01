@@ -8,6 +8,22 @@ public class periodo {
 	private double I; // interes
 	private double CA; //capital amortizado
 	private double CP;// capital pendiente
+	private double FE; //flujo emisor
+	private double FB; //flujo bonista
+	
+	
+	public double getFE() {
+		return FE;
+	}
+	public void setFE(double fE) {
+		FE = fE;
+	}
+	public double getFB() {
+		return FB;
+	}
+	public void setFB(double fB) {
+		FB = fB;
+	}
 	public int getPeriodo() {
 		return periodo;
 	}
@@ -48,7 +64,7 @@ public class periodo {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public periodo(int periodo, double s, double cU, double i, double cA, double cP) {
+	public periodo(int periodo, double s, double cU, double i, double cA, double cP, double fE, double fB) {
 		super();
 		this.periodo = periodo;
 		S = s;
@@ -56,6 +72,8 @@ public class periodo {
 		I = i;
 		CA = cA;
 		CP = cP;
+		FE = fE;
+		FB = fB;
 	}
 	
 

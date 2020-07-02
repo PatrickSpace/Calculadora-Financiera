@@ -1,6 +1,7 @@
 package com.aleman.entity;
 
 import java.math.RoundingMode;
+//import com.mathworks.engine.MatlabEngine
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +12,13 @@ public class bono {
 	private double capital;
 	private double tep;
 
-    //valores de entrada 
+	// valores de entrada
 	private double valorn;// capital
 	private double valorc;
 	private double tiempo_anios;// para n
 	private double frecuencia;// para n
 	private double tea;// tep
+	private double tcok;// tcok
 //////////////////////////////////////////
 
 	// ALEMAN
@@ -40,14 +42,14 @@ public class bono {
 			p.setPeriodo(i);
 			p.setI(p.getS() * this.tep);
 			p.setCU(p.getI() + p.getCA());
-			p.setFE(p.getCU()*-1);
+			p.setFE(p.getCU() * -1);
 			p.setFB(p.getCU());
 			p.setCP(p.getS() - p.getCA());
 			if (p.getCP() < 0) {
 				p.setCP(0);
 			}
 			cpaux = p.getCP();
-		
+
 			flujo.add(p);
 		}
 		return flujo;
@@ -60,13 +62,13 @@ public class bono {
 		DecimalFormat df = new DecimalFormat("#.###");
 		df.setRoundingMode(RoundingMode.CEILING);
 		for (periodo var : flujo1) {
-			
+
 			String fe = df.format(var.getFE());
 			var.setFE(Double.valueOf(fe));
-			
+
 			String fb = df.format(var.getFB());
 			var.setFB(Double.valueOf(fb));
-			
+
 			String ca = df.format(var.getCA());
 			var.setCA(Double.valueOf(ca));
 
@@ -81,9 +83,7 @@ public class bono {
 
 			String i = df.format(var.getI());
 			var.setI(Double.valueOf(i));
-			
-			
-			
+
 		}
 
 		return flujo1;
@@ -121,8 +121,8 @@ public class bono {
 			if (p.getCP() < 0) {
 				p.setCP(0);
 			}
-			
-			p.setFE(p.getCU()*-1);
+
+			p.setFE(p.getCU() * -1);
 			p.setFB(p.getCU());
 			flujoamer.add(p);
 		}
@@ -132,6 +132,13 @@ public class bono {
 	// FRANCES
 	public List<periodo_f> flujodecajaFrances() {
 
+
+		this.n = this.tiempo_anios * 360 / this.frecuencia;
+		this.capital = this.valorn;
+		double base = 1 + this.tea / 100;
+		this.tep = Math.pow(base, this.frecuencia / 360) - 1;
+		this.tep = this.tep * 100;
+		
 		List<periodo_f> flujofranc = new ArrayList<periodo_f>();
 		periodo_f per = new periodo_f();
 		per.setValorc(valorc);
@@ -163,11 +170,11 @@ public class bono {
 			per.setPeriodo(cont * 100 / 100);
 			per.setAmortizacion((per.cuota_R() - per.getI()));
 			per.setFlujoemisor((per.getValorn() + per.getAmortizacion()));
-			per.setFlujobonista(per.cuota_R()*-1);
+			per.setFlujobonista(per.cuota_R() * -1);
 			if (cont == auxcont) {
 				per.setFlujoemisor(0);
 			}
-			
+
 			per.dosdecimales();
 			flujofranc.add(per);
 
@@ -200,7 +207,7 @@ public class bono {
 			pago = pago + p.cuota_R();
 		}
 		pago = pago * (-1.0);
-		DecimalFormat df = new DecimalFormat("#.##");
+		DecimalFormat df = new DecimalFormat("#.###");
 		df.setRoundingMode(RoundingMode.CEILING);
 		pago1 = df.format(pago);
 		return pago1;
@@ -232,29 +239,148 @@ public class bono {
 		pago1 = df.format(pago);
 		return pago1;
 	}
-	
+
 	public String getTEPacortado() {
 		String tep;
-		double tepn = this.tep*100;
-		DecimalFormat df = new DecimalFormat("#.##");
+		double tepn = this.tep * 100;
+		DecimalFormat df = new DecimalFormat("#.####");
 		df.setRoundingMode(RoundingMode.CEILING);
 		tep = df.format(tepn) + "%";
 		return tep;
 	}
-	public String precioactual() {
-		return "";
-	}
-	public String utilidadoperdida() {
-		return "";
-	}
-	public String tceaemisor() {
-		return "";
-	}
-	public String treabonista() {
-		return "";
-	}
-	
 
+	private double getCOK() {
+		double tcok1 = this.tcok / 100;
+		double base = 1 + tcok1;
+		double pow = Math.pow(base, this.frecuencia / 360);
+		double result = pow - 1;
+		return result * 100;
+	}
+
+	public String cokstring() {
+		String scok = "";
+		double cok = getCOK();
+		DecimalFormat df = new DecimalFormat("#.####");
+		df.setRoundingMode(RoundingMode.CEILING);
+		scok = df.format(cok) + "%";
+		return scok;
+	}
+
+	public String precioactual(List<periodo> flujo1) {
+		double suma = 0;
+		String suma1 = "";
+		for (periodo per : flujo1) {
+			double base = 1 + getCOK()/100;
+			double pow = Math.pow(base, per.getPeriodo());
+			double result = per.getFB() / pow;
+			suma = suma + result;
+		}
+		DecimalFormat df = new DecimalFormat("#.####");
+		df.setRoundingMode(RoundingMode.CEILING);
+		suma1 = df.format(suma);
+		return suma1;
+	}
+
+	public String utilidadoperdida(List<periodo> flujo1) {
+		double suma = 0;
+		String utilidad = "";
+		for (periodo per : flujo1) {
+			double base = 1 + getCOK()/100;
+			double pow = Math.pow(base, per.getPeriodo());
+			double result = per.getFB() / pow;
+			suma = suma + result;
+		}
+		suma = suma - this.valorc;
+		DecimalFormat df = new DecimalFormat("#.####");
+		df.setRoundingMode(RoundingMode.CEILING);
+		utilidad = df.format(suma);
+		return utilidad;
+	}
+
+	public String tceaemisor(List<periodo> flujo1) {
+		double base = 1 + (gettirindouble(flujo1)/100) ;
+		double pow = Math.pow(base, 360 / this.frecuencia);
+		double result = pow - 1;
+		DecimalFormat df = new DecimalFormat("#.####");
+		df.setRoundingMode(RoundingMode.CEILING);
+		String tceas = df.format(result * 100);
+		return tceas;
+	}
+
+	// el entero e se define para la tir del emisor (0) o del bonista (1)
+	private double gettirindouble(List<periodo> flujo1) {
+		double tirdouble = 0;
+		int fc = (int) this.n;
+		double[] flujo = new double[fc + 1];
+		flujo[0] = this.valorc;
+		for (periodo per : flujo1) {
+			int fc1 = per.getPeriodo();
+			flujo[fc1] = per.getFE();
+		}
+		tirdouble = getTIR(flujo);
+		return tirdouble;
+	}
+
+	public String getflujotir(List<periodo> flujo1) {
+		int fc = (int) this.n;
+		double[] flujo = new double[fc + 1];
+		flujo[0] = this.valorc;
+		for (periodo per : flujo1) {
+			int fc1 = per.getPeriodo();
+			flujo[fc1] = per.getFE();
+		}
+		String flujodetir = "";
+		for (int i = 0; i < this.n + 1; i++) {
+			String flujoaux = String.valueOf(flujo[i]);
+			flujodetir = flujodetir + flujoaux + "\n";
+		}
+		return flujodetir;
+	}
+
+	public String tir(List<periodo> flujo1) {
+		double x = gettirindouble(flujo1);
+		DecimalFormat df = new DecimalFormat("#.####");
+		df.setRoundingMode(RoundingMode.CEILING);
+		String tirs = df.format(x);
+		return tirs;
+	}
+
+	// intento con ecuacionNewtonPasphon
+	/// ecuacion de tir manual
+	public static double getTIR(final double[] flujo) {
+		final int MAX_ITER = 20;
+		double EXCEL_EPSILON = 0.0000001;
+
+		double x = 0.1;
+		int iter = 0;
+		while (iter++ < MAX_ITER) {
+
+			final double x1 = 1.0 + x;
+			double fx = 0.0;
+			double dfx = 0.0;
+			for (int i = 0; i < flujo.length; i++) {
+				final double v = flujo[i];
+				final double x1_i = Math.pow(x1, i);
+				fx += v / x1_i;
+				final double x1_i1 = x1_i * x1;
+				dfx += -i * v / x1_i1;
+			}
+			final double new_x = x - fx / dfx;
+			final double epsilon = Math.abs(new_x - x);
+
+			if (epsilon <= EXCEL_EPSILON) {
+				if (x == 0.0 && Math.abs(new_x) <= EXCEL_EPSILON) {
+					return 0.0; // OpenOffice calc does this
+				} else {
+					return new_x * 100;
+				}
+			}
+			x = new_x;
+		}
+		return x;
+	}
+
+	///////////////////
 	public bono() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -270,6 +396,14 @@ public class bono {
 
 	public double getCapital() {
 		return capital;
+	}
+
+	public double getTcok() {
+		return tcok;
+	}
+
+	public void setTcok(double tcok) {
+		this.tcok = tcok;
 	}
 
 	public void setCapital(double capital) {
@@ -291,9 +425,9 @@ public class bono {
 		this.tep = tep;
 	}
 
-	public bono(double valorn, double valorc, double tiempo_anios, double frecuencia, double tea) {
+	public bono(double valorn, double valorc, double tiempo_anios, double frecuencia, double tea, double tcok) {
 		super();
-
+		this.tcok = tcok;
 		this.valorn = valorn;
 		this.valorc = valorc;
 		this.tiempo_anios = tiempo_anios;

@@ -48,7 +48,7 @@ public class bonoController {
 		model.addAttribute("bono", new bono());
 		if (tipo != 3) {
 			model.addAttribute("lista", new ArrayList<periodo>());
-			
+
 		}
 		return "/bono";
 	}
@@ -56,8 +56,11 @@ public class bonoController {
 	@PostMapping("/{moneda}/{tipo}/save")
 	public String guardar(bono bono, Model model, @PathVariable(name = "moneda") int moneda,
 			@PathVariable(name = "tipo") int tipo) {
-		String interestotal = "";
-		String pagottotal = "";
+		String tcea = "";
+		String precioactual = "";
+		String utilidad = "";
+		String cok = "";
+		String tir = "";
 
 		if (moneda == 0) {
 			model.addAttribute("moneda", "S/. ");
@@ -86,30 +89,39 @@ public class bonoController {
 			model.addAttribute("tt", 3);
 			flujo_frances = bono.flujodecajaFrances();
 
-				////////////////////////////////
-			
+			////////////////////////////////
+
 			model.addAttribute("lista", flujo_frances);
 			bono bono11 = new bono();
 			bono11 = bono;
 			model.addAttribute("bono", bono11);
-			interestotal = bono.getInterestotal_F(flujo_frances);
-			pagottotal = bono.getPagototal_F(flujo_frances);
-			model.addAttribute("interes", interestotal);
-			model.addAttribute("pago", pagottotal);
+			tcea = bono.tceaemisor(flujo);
+			precioactual = bono.precioactual(flujo);
+			utilidad = bono.utilidadoperdida(flujo);
+			cok = bono.cokstring();
+			tir = bono.tir(flujo);
+			model.addAttribute("tcea", tcea);
+			model.addAttribute("pa", precioactual);
+			model.addAttribute("uop", utilidad);
+			model.addAttribute("cok", cok);
+			model.addAttribute("tir", tir);
 			////////////////////////////////
 			if (flujo_frances.isEmpty()) {
 				model.addAttribute("mensaje", "La lista está vacia");
 
 			}
-			
+
 			return "/bonoF";
 		}
 
 		if (tipo != 3) {
-			
+
 			/////////
-			interestotal = bono.getInterestotal(flujo);
-			pagottotal = bono.getPagototal(flujo);
+			tcea = bono.tceaemisor(flujo);
+			precioactual = bono.precioactual(flujo);
+			utilidad = bono.utilidadoperdida(flujo);
+			cok = bono.cokstring();
+			tir = bono.tir(flujo);
 			/////////
 			List<periodo> flujochico = new ArrayList<periodo>();
 			flujochico = bono.flujoacortado(flujo);
@@ -118,8 +130,12 @@ public class bonoController {
 			bono bono1 = new bono();
 			bono1 = bono;
 			model.addAttribute("bono", bono1);
-			model.addAttribute("interes", interestotal);
-			model.addAttribute("pago", pagottotal);
+			model.addAttribute("tcea", tcea);
+			model.addAttribute("pa", precioactual);
+			model.addAttribute("uop", utilidad);
+			model.addAttribute("cok", cok);
+			model.addAttribute("tir", tir);
+
 			if (flujo.isEmpty()) {
 				model.addAttribute("mensaje", "La lista está vacia");
 			}

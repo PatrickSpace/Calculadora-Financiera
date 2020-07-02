@@ -92,18 +92,24 @@
 							<label>Tiempo en años:</label> <input type="number" required
 								th:field="*{tiempo_anios}" class="form-control"></input>
 						</div>
-
-
 						<div class="form-group">
 							<label>Frecuencia en dias:</label> <input type="number" required
 								th:field="*{frecuencia}" class="form-control"></input>
 						</div>
-
-
 						<div class="form-group">
 							<label>Tasa Efectiva Anual:</label> <br />
 							<div class="input-group mb-3">
 								<input type="text" required th:field="*{tea}" step="any"
+									class="form-control"></input>
+								<div class="input-group-prepend">
+									<span class="input-group-text">%</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Tasa Anual de descuento:</label> <br />
+							<div class="input-group mb-3">
+								<input type="text" required th:field="*{tcok}" step="any"
 									class="form-control"></input>
 								<div class="input-group-prepend">
 									<span class="input-group-text">%</span>
@@ -121,21 +127,27 @@
 				<div class="col-12">
 					<h2>Resultados:</h2>
 				</div>
-				<!-- 
+
 				<div class="col-5">
 					<h5>Capital:</h5>
 					<p th:text="${bono.capital}"></p>
-					<h5>TEP:</h5>
-					<p th:text="${bono.tep}"></p>
 					<h5>N:</h5>
 					<p th:text="${bono.n}"></p>
+					<h5>TEP:</h5>
+					<p th:text="${bono.tep}"></p>
+					<h5>COK:</h5>
+					<p th:text="${cok}"></p>
 				</div>
-				 -->
+
 				<div class="col-6" style="margin-left: 20px;">
-					<h5>Total a pagar:</h5>
-					<p th:text="${moneda} + ${pago}"></p>
-					<h5>Interes total generado:</h5>
-					<p th:text="${moneda} + ${interes}"></p>
+					<h5>TCEA:</h5>
+					<p th:text="${tcea}+ '%' "></p>
+					<h5>Precio Actual:</h5>
+					<p th:text="${moneda} + ${pa} "></p>
+					<h5>Utilidad/Perdida:</h5>
+					<p th:text="${moneda} + ${uop}"></p>
+					<h5>Tir:</h5>
+					<p th:text="${tir} + '%'"></p>
 				</div>
 
 			</div>

@@ -20,7 +20,7 @@ public class herramientasController {
 		model.addAttribute("tnp", tnp);
 		model.addAttribute("tep", tep);
 	
-		return "/tasas";
+		return "tasas";
 	}
 
 	@PostMapping("/calcular")
@@ -38,6 +38,6 @@ public class herramientasController {
 		model.addAttribute("m", m);
 		model.addAttribute("n", n);
 		model.addAttribute("tep", formatTEP);
-		return "/tasas";
+		return "tasas";
 	}
 }

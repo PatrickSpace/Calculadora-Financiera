@@ -115,7 +115,7 @@ public class bono {
 			}
 			p.setI(i1);
 			p.setCA(p.getCU() - p.getI());
-			p.setS(this.capital - p.getCA());
+			p.setS(this.capital);
 			p.setPeriodo(i);
 			p.setCP(p.getS() - p.getCA());
 			if (p.getCP() < 0) {
@@ -138,12 +138,13 @@ public class bono {
 		this.tep = Math.pow(base, frecuencia1 / 360) - 1;
 		List<periodo> flujofranc = new ArrayList<periodo>();
 		periodo per = new periodo();
-		double aux = 0;
+		double aux = this.valorn;
 		double auxcont = this.tiempo_anios * 360 / this.frecuencia;
 		double r = this.valorn;
 		for (int cont = 1; cont < auxcont + 1; cont++) {
 			if (cont == 1) {
 				per.setValornocmabia(r);
+				per.setS(aux);
 			} else {
 				per = new periodo();
 				per.setS(aux);
@@ -155,14 +156,14 @@ public class bono {
 					/ ((Math.pow((1 + this.tep), this.n) - 1));
 			per.setCU(cuota);
 			per.setFB(per.getCU());
-			per.setCA((per.getCU() - per.getI()));
+			per.setCA((per.getCU() + per.getI()));
 			per.setCP((per.getS() + per.getCA()));
 			per.setFE(per.getCU() * -1);
 			if (cont == auxcont) {
 				per.setCP(0);
 			}
 			flujofranc.add(per);
-			aux = (per.getS() + per.getCA()) * 100 / 100;
+			aux = (per.getS() - per.getCA()) * 100 / 100;
 
 		}
 		return flujofranc;

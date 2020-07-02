@@ -45,7 +45,7 @@ public class bonoController {
 		}
 		model.addAttribute("bono", new bono());
 		model.addAttribute("lista", new ArrayList<periodo>());
-		return "/bono";
+		return "bono";
 	}
 
 	@PostMapping("/{moneda}/{tipo}/save")
@@ -122,7 +122,7 @@ public class bonoController {
 			model.addAttribute("mensaje", "La lista está vacia");
 		}
 
-		return "/bono";
+		return "bono";
 
 	}
 

@@ -35,7 +35,7 @@
 					aria-expanded="false"> Herramientas </a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<a class="dropdown-item" th:href="@{/herramientas/tnpatep}">De
-							TNP a TEP</a>
+							TNP a TEA</a>
 					</div></li>
 			</ul>
 			<div class="form-inline my-2 ">
@@ -69,7 +69,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" th:text="${moneda}"></span>
 								</div>
-								<input type="number" required th:field="*{valorn}" step="any"
+								<input type="number" required th:field="*{valorn}" step="any" min="100"
 									class="form-control"></input>
 							</div>
 						</div>
@@ -80,19 +80,18 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" th:text="${moneda}"></span>
 								</div>
-								<input type="number" required th:field="*{valorc}" step="any"
+								<input type="number" required th:field="*{valorc}" step="any" min="100"
 									class="form-control"></input>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label>Tiempo en años:</label> <input type="number" required
+							<label>Tiempo en años:</label> <input type="number" required min="1"
 								th:field="*{tiempo_anios}" class="form-control"></input>
 						</div>
 
-
 						<div class="form-group">
-							<label>Frecuencia en dias:</label> <input type="number" required
+							<label>Frecuencia en dias:</label> <input type="number" required min="1"
 								th:field="*{frecuencia}" class="form-control"></input>
 						</div>
 
@@ -100,7 +99,7 @@
 						<div class="form-group">
 							<label>Tasa Efectiva Anual:</label> <br />
 							<div class="input-group mb-3">
-								<input type="text" required th:field="*{tea}" step="any"
+								<input type="number" required th:field="*{tea}" step="any" min="0.0001"
 									class="form-control"></input>
 								<div class="input-group-prepend">
 									<span class="input-group-text">%</span>
@@ -110,7 +109,7 @@
 						<div class="form-group">
 							<label>Tasa Anual de descuento:</label> <br />
 							<div class="input-group mb-3">
-								<input type="text" required th:field="*{tcok}" step="any"
+								<input type="number" required th:field="*{tcok}" step="any" min="0.0001"
 									class="form-control"></input>
 								<div class="input-group-prepend">
 									<span class="input-group-text">%</span>

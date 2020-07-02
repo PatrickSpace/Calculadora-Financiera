@@ -10,8 +10,14 @@ public class periodo {
 	private double CP;// capital pendiente
 	private double FE; //flujo emisor
 	private double FB; //flujo bonista
+	private double valornocmabia; // para el frances
 	
-	
+	public double getValornocmabia() {
+		return valornocmabia;
+	}
+	public void setValornocmabia(double valornocmabia) {
+		this.valornocmabia = valornocmabia;
+	}
 	public double getFE() {
 		return FE;
 	}

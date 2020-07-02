@@ -8,15 +8,15 @@ import java.util.List;
 
 public class bono {
 
-	private double n;
+	private int n;
 	private double capital;
 	private double tep;
 
 	// valores de entrada
 	private double valorn;// capital
 	private double valorc;
-	private double tiempo_anios;// para n
-	private double frecuencia;// para n
+	private int tiempo_anios;// para n
+	private int frecuencia;// para n
 	private double tea;// tep
 	private double tcok;// tcok
 //////////////////////////////////////////
@@ -24,11 +24,11 @@ public class bono {
 	// ALEMAN
 	public List<periodo> flujodecajaAleman() {
 		List<periodo> flujo = new ArrayList<periodo>();
-
 		this.n = this.tiempo_anios * 360 / this.frecuencia;
 		this.capital = this.valorn;
 		double base = 1 + this.tea / 100;
-		this.tep = Math.pow(base, this.frecuencia / 360) - 1;
+		double frecuencia1 = (double)this.frecuencia;
+		this.tep = Math.pow(base, frecuencia1 / 360) - 1;
 
 		double ca1 = this.capital / this.n;
 		double cpaux = 0;
@@ -95,8 +95,8 @@ public class bono {
 		this.n = this.tiempo_anios * 360 / this.frecuencia;
 		this.capital = this.valorn;
 		double base = 1 + this.tea / 100;
-		this.tep = Math.pow(base, this.frecuencia / 360) - 1;
-
+		double frecuencia1 = (double)this.frecuencia;
+		this.tep = Math.pow(base, frecuencia1 / 360) - 1;
 		List<periodo> flujoamer = new ArrayList<periodo>();
 		double aux = 0;
 		double i1 = this.capital * (this.tep);
@@ -121,7 +121,6 @@ public class bono {
 			if (p.getCP() < 0) {
 				p.setCP(0);
 			}
-
 			p.setFE(p.getCU() * -1);
 			p.setFB(p.getCU());
 			flujoamer.add(p);
@@ -130,90 +129,48 @@ public class bono {
 	}
 
 	// FRANCES
-	public List<periodo_f> flujodecajaFrances() {
-
+	public List<periodo> flujodecajaFrances() {
 
 		this.n = this.tiempo_anios * 360 / this.frecuencia;
 		this.capital = this.valorn;
 		double base = 1 + this.tea / 100;
-		this.tep = Math.pow(base, this.frecuencia / 360) - 1;
-		this.tep = this.tep * 100;
-		
-		List<periodo_f> flujofranc = new ArrayList<periodo_f>();
-		periodo_f per = new periodo_f();
-		per.setValorc(valorc);
-		per.setValorn(valorn);
-		per.setTiempo_anios(tiempo_anios);
-		per.setTea(tea);
-		per.setFrecuencia(frecuencia);
-
+		double frecuencia1 = (double)this.frecuencia;
+		this.tep = Math.pow(base, frecuencia1 / 360) - 1;
+		List<periodo> flujofranc = new ArrayList<periodo>();
+		periodo per = new periodo();
 		double aux = 0;
-		double auxcont = per.totalPeriodo();
-		double r = per.getValorn();
+		double auxcont = this.tiempo_anios * 360 / this.frecuencia;
+		double r = this.valorn;
 		for (int cont = 1; cont < auxcont + 1; cont++) {
-
-			if (cont == 0) {
-
-			}
 			if (cont == 1) {
-				per.setValornNocambia(r);
+				per.setValornocmabia(r);
 			} else {
-				per = new periodo_f();
-				per.setValorn(aux);
-				per.setTiempo_anios(tiempo_anios);
-				per.setTea(tea);
-				per.setFrecuencia(frecuencia);
-				per.setValornNocambia(r);
+				per = new periodo();
+				per.setS(aux);
+				per.setValornocmabia(r);
 			}
-
-			per.setI((-1) * (per.getValorn() * per.tep_tea()));
+			per.setI((-1) * (per.getS() * this.tep));
 			per.setPeriodo(cont * 100 / 100);
-			per.setAmortizacion((per.cuota_R() - per.getI()));
-			per.setFlujoemisor((per.getValorn() + per.getAmortizacion()));
-			per.setFlujobonista(per.cuota_R() * -1);
+			double cuota = per.getValornocmabia() * (this.tep * Math.pow((1 + this.tep), this.n))
+					/ ((Math.pow((1 + this.tep), this.n) - 1));
+			per.setCU(cuota);
+			per.setFB(per.getCU());
+			per.setCA((per.getCU() - per.getI()));
+			per.setCP((per.getS() + per.getCA()));
+			per.setFE(per.getCU() * -1);
 			if (cont == auxcont) {
-				per.setFlujoemisor(0);
+				per.setCP(0);
 			}
-
-			per.dosdecimales();
 			flujofranc.add(per);
-
-			aux = (per.getValorn() + per.getAmortizacion()) * 100 / 100;
+			aux = (per.getS() + per.getCA()) * 100 / 100;
 
 		}
 		return flujofranc;
 	}
 /////////////
 
-	public String getInterestotal_F(List<periodo_f> flujo1) {
-		double interes = 0;
-		String inter = "";
-		List<periodo_f> flujo = flujo1;
-		for (periodo_f p : flujo) {
-			interes = interes + p.getI();
-		}
-		interes = interes * (-1.0);
-		DecimalFormat df = new DecimalFormat("#.##");
-		df.setRoundingMode(RoundingMode.CEILING);
-		inter = df.format(interes);
-		return inter;
-	}
-
-	public String getPagototal_F(List<periodo_f> flujo1) {
-		double pago = 0;
-		String pago1 = "";
-		List<periodo_f> flujo = flujo1;
-		for (periodo_f p : flujo) {
-			pago = pago + p.cuota_R();
-		}
-		pago = pago * (-1.0);
-		DecimalFormat df = new DecimalFormat("#.###");
-		df.setRoundingMode(RoundingMode.CEILING);
-		pago1 = df.format(pago);
-		return pago1;
-	}
 /////////////     RESULTADOS
-
+/*
 	public String getInterestotal(List<periodo> flujo1) {
 		double interes = 0;
 		String inter = "";
@@ -239,7 +196,7 @@ public class bono {
 		pago1 = df.format(pago);
 		return pago1;
 	}
-
+*/
 	public String getTEPacortado() {
 		String tep;
 		double tepn = this.tep * 100;
@@ -252,7 +209,8 @@ public class bono {
 	private double getCOK() {
 		double tcok1 = this.tcok / 100;
 		double base = 1 + tcok1;
-		double pow = Math.pow(base, this.frecuencia / 360);
+		double frecuencia1 = (double)this.frecuencia;
+		double pow = Math.pow(base, frecuencia1 / 360);
 		double result = pow - 1;
 		return result * 100;
 	}
@@ -270,7 +228,7 @@ public class bono {
 		double suma = 0;
 		String suma1 = "";
 		for (periodo per : flujo1) {
-			double base = 1 + getCOK()/100;
+			double base = 1 + getCOK() / 100;
 			double pow = Math.pow(base, per.getPeriodo());
 			double result = per.getFB() / pow;
 			suma = suma + result;
@@ -285,7 +243,7 @@ public class bono {
 		double suma = 0;
 		String utilidad = "";
 		for (periodo per : flujo1) {
-			double base = 1 + getCOK()/100;
+			double base = 1 + getCOK() / 100;
 			double pow = Math.pow(base, per.getPeriodo());
 			double result = per.getFB() / pow;
 			suma = suma + result;
@@ -298,7 +256,7 @@ public class bono {
 	}
 
 	public String tceaemisor(List<periodo> flujo1) {
-		double base = 1 + (gettirindouble(flujo1)/100) ;
+		double base = 1 + (gettirindouble(flujo1) / 100);
 		double pow = Math.pow(base, 360 / this.frecuencia);
 		double result = pow - 1;
 		DecimalFormat df = new DecimalFormat("#.####");
@@ -390,7 +348,7 @@ public class bono {
 		return n;
 	}
 
-	public void setN(double n) {
+	public void setN(int n) {
 		this.n = n;
 	}
 
@@ -425,7 +383,7 @@ public class bono {
 		this.tep = tep;
 	}
 
-	public bono(double valorn, double valorc, double tiempo_anios, double frecuencia, double tea, double tcok) {
+	public bono(double valorn, double valorc, int tiempo_anios, int frecuencia, double tea, double tcok) {
 		super();
 		this.tcok = tcok;
 		this.valorn = valorn;
@@ -452,19 +410,19 @@ public class bono {
 		this.valorc = valorc;
 	}
 
-	public double getTiempo_anios() {
+	public int getTiempo_anios() {
 		return tiempo_anios;
 	}
 
-	public void setTiempo_anios(double tiempo_anios) {
-		this.tiempo_anios = tiempo_anios;
-	}
-
-	public double getFrecuencia() {
+	public int getFrecuencia() {
 		return frecuencia;
 	}
 
-	public void setFrecuencia(double frecuencia) {
+	public void setTiempo_anios(int tiempo_anios) {
+		this.tiempo_anios = tiempo_anios;
+	}
+
+	public void setFrecuencia(int frecuencia) {
 		this.frecuencia = frecuencia;
 	}
 

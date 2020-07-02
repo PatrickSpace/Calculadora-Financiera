@@ -26,10 +26,10 @@ public class herramientasController {
 	@PostMapping("/calcular")
 	public String calcular(Model model, tasa tasa) {
 
-		double tep = tasa.calculoTEP();
+		double tep = tasa.calculoTEA();
 		double p1 = tasa.getP();
 		double pc1 = tasa.getPc();
-		double te1 = tasa.getTe();
+		double te1 = 360;
 		double m = p1 / pc1;
 		double n = te1 / pc1;
 		String formatTEP="";

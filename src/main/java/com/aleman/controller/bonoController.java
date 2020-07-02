@@ -1,6 +1,7 @@
 package com.aleman.controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aleman.entity.bono;
 import com.aleman.entity.periodo;
-import com.aleman.entity.periodo_f;
+
 
 @RequestMapping("/bono")
 @Controller
@@ -41,15 +42,9 @@ public class bonoController {
 		if (tipo == 3) { // frances = 3
 			model.addAttribute("tipo", "Frances");
 			model.addAttribute("tt", 3);
-			model.addAttribute("bono", new bono());
-			model.addAttribute("lista", new ArrayList<periodo_f>());
-			return "/bonoF";
 		}
 		model.addAttribute("bono", new bono());
-		if (tipo != 3) {
-			model.addAttribute("lista", new ArrayList<periodo>());
-
-		}
+		model.addAttribute("lista", new ArrayList<periodo>());
 		return "/bono";
 	}
 
@@ -72,7 +67,6 @@ public class bonoController {
 		}
 
 		List<periodo> flujo = new ArrayList<periodo>();
-		List<periodo_f> flujo_frances = new ArrayList<periodo_f>();
 
 		if (tipo == 1) { // americano = 1
 			model.addAttribute("tipo", "Americano");
@@ -87,59 +81,47 @@ public class bonoController {
 		if (tipo == 3) { // frances = 3
 			model.addAttribute("tipo", "Frances");
 			model.addAttribute("tt", 3);
-			flujo_frances = bono.flujodecajaFrances();
+			flujo = bono.flujodecajaFrances();
 
 			////////////////////////////////
-
-			model.addAttribute("lista", flujo_frances);
-			bono bono11 = new bono();
-			bono11 = bono;
-			model.addAttribute("bono", bono11);
-			tcea = bono.tceaemisor(flujo);
-			precioactual = bono.precioactual(flujo);
-			utilidad = bono.utilidadoperdida(flujo);
-			cok = bono.cokstring();
-			tir = bono.tir(flujo);
-			model.addAttribute("tcea", tcea);
-			model.addAttribute("pa", precioactual);
-			model.addAttribute("uop", utilidad);
-			model.addAttribute("cok", cok);
-			model.addAttribute("tir", tir);
-			////////////////////////////////
-			if (flujo_frances.isEmpty()) {
-				model.addAttribute("mensaje", "La lista está vacia");
-
-			}
-
-			return "/bonoF";
+			/*
+			 * model.addAttribute("lista", flujo); bono bono11 = new bono(); bono11 = bono;
+			 * model.addAttribute("bono", bono11); tcea = bono.tceaemisor(flujo);
+			 * precioactual = bono.precioactual(flujo); utilidad =
+			 * bono.utilidadoperdida(flujo); cok = bono.cokstring(); tir = bono.tir(flujo);
+			 * model.addAttribute("tcea", tcea); model.addAttribute("pa", precioactual);
+			 * model.addAttribute("uop", utilidad); model.addAttribute("cok", cok);
+			 * model.addAttribute("tir", tir); ////////////////////////////////
+			 * 
+			 * 
+			 * return "/bonoF";
+			 */
 		}
 
-		if (tipo != 3) {
+		/////////
+		tcea = bono.tceaemisor(flujo);
+		precioactual = bono.precioactual(flujo);
+		utilidad = bono.utilidadoperdida(flujo);
+		cok = bono.cokstring();
+		tir = bono.tir(flujo);
+		/////////
+		List<periodo> flujochico = new ArrayList<periodo>();
+		flujochico = bono.flujoacortado(flujo);
+		model.addAttribute("lista", flujochico);
+		/////////
+		bono bono1 = new bono();
+		bono1 = bono;
+		model.addAttribute("bono", bono1);
+		model.addAttribute("tcea", tcea);
+		model.addAttribute("pa", precioactual);
+		model.addAttribute("uop", utilidad);
+		model.addAttribute("cok", cok);
+		model.addAttribute("tir", tir);
 
-			/////////
-			tcea = bono.tceaemisor(flujo);
-			precioactual = bono.precioactual(flujo);
-			utilidad = bono.utilidadoperdida(flujo);
-			cok = bono.cokstring();
-			tir = bono.tir(flujo);
-			/////////
-			List<periodo> flujochico = new ArrayList<periodo>();
-			flujochico = bono.flujoacortado(flujo);
-			model.addAttribute("lista", flujochico);
-			/////////
-			bono bono1 = new bono();
-			bono1 = bono;
-			model.addAttribute("bono", bono1);
-			model.addAttribute("tcea", tcea);
-			model.addAttribute("pa", precioactual);
-			model.addAttribute("uop", utilidad);
-			model.addAttribute("cok", cok);
-			model.addAttribute("tir", tir);
-
-			if (flujo.isEmpty()) {
-				model.addAttribute("mensaje", "La lista está vacia");
-			}
+		if (flujo.isEmpty()) {
+			model.addAttribute("mensaje", "La lista está vacia");
 		}
+
 		return "/bono";
 
 	}

@@ -5,3 +5,9 @@ Esta calculadora muestra el detalle de los pagos que serán efectuados en base a
 
 ### Conversion entre tasas
 El sistema permite hacer el cambio de una tasa nominal a una tasa efectiva anual 
+
+## Credenciales
+- Usuario: user
+- Contraseña: root
+
+Link: [Calculadora Financiera](https://infinite-waters-63154.herokuapp.com)
